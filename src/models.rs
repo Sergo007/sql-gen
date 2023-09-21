@@ -1,4 +1,4 @@
-#[derive(sqlx::FromRow)]
+#[derive(sqlx::FromRow, Debug)]
 pub struct TableColumn {
     pub(crate) table_name: String,
     pub(crate) column_name: String,

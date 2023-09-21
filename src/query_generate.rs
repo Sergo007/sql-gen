@@ -54,8 +54,14 @@ pub fn generate_query_code(table_name: &str, rows: &[TableColumn]) -> String {
         rows,
     ));
     query_code.push('\n');
-
-    query_code.push_str(&generate_unique_query_code(table_name, schema_name, rows));
+    println!(
+        "{}.{}  rows_count:{} | {:?}",
+        schema_name,
+        table_name,
+        rows.len(),
+        rows
+    );
+    // query_code.push_str(&generate_unique_query_code(table_name, schema_name, rows));
     query_code.push('\n');
 
     query_code.push_str(&generate_select_all_fk_queries(
@@ -684,7 +690,7 @@ fn generate_update_conditions(table_name: &str, rows: &[TableColumn]) -> String 
         .filter(|r| r.table_name == table_name)
         .enumerate()
         .filter(|(_idx, row)| row.is_primary_key)
-        .map(|(idx, row)| format!("\"{}\" = {}", row.column_name, idx + 1))
+        .map(|(idx, row)| format!("\"{}\" = ${}", row.column_name, idx + 1))
         .collect::<Vec<String>>()
         .join(" AND ")
 }
@@ -693,7 +699,7 @@ fn generate_select_by_conditions(table_name: &str, rows: &[TableColumn]) -> Stri
     rows.iter()
         .filter(|r| r.table_name == table_name && r.is_primary_key)
         .enumerate()
-        .map(|(idx, row)| format!("\"{}\" = {}", row.column_name, idx + 1))
+        .map(|(idx, row)| format!("\"{}\" = ${}", row.column_name, idx + 1))
         .collect::<Vec<String>>()
         .join(" AND ")
 }
@@ -702,7 +708,7 @@ fn generate_delete_conditions(table_name: &str, rows: &[TableColumn]) -> String 
     rows.iter()
         .filter(|r| r.table_name == table_name && r.is_primary_key)
         .enumerate()
-        .map(|(idx, row)| format!("\"{}\" = {}", row.column_name, idx + 1))
+        .map(|(idx, row)| format!("\"{}\" = ${}", row.column_name, idx + 1))
         .collect::<Vec<String>>()
         .join(" AND ")
 }
