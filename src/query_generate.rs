@@ -54,13 +54,13 @@ pub fn generate_query_code(table_name: &str, rows: &[TableColumn]) -> String {
         rows,
     ));
     query_code.push('\n');
-    println!(
-        "{}.{}  rows_count:{} | {:?}",
-        schema_name,
-        table_name,
-        rows.len(),
-        rows
-    );
+    // println!(
+    //     "{}.{}  rows_count:{} | {:?}",
+    //     schema_name,
+    //     table_name,
+    //     rows.len(),
+    //     rows
+    // );
     // query_code.push_str(&generate_unique_query_code(table_name, schema_name, rows));
     query_code.push('\n');
 
